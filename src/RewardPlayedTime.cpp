@@ -141,7 +141,6 @@ public:
 
         timers.erase(player->GetGUID());
     }
-
 };
 
 void AddRewardPlayedTimeScripts()
