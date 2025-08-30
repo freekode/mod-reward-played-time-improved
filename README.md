@@ -5,11 +5,17 @@
 
 This is a module for [AzerothCore](http://www.azerothcore.org) that adds items for players that have stayed logged in the x amount of time.
 
-Current features:
+**Current features**
 
--**This module rewards players the the time they have spent logged into the character it does a check if the player is AFK, also items can be added via the database.
+This module grants players a random reward item every some time of session playtime.
+* Reward interval configurable, default is 1h
+* Rewards are chosen from a configurable list
+* Items are added directly to the player’s bags. If bags are full, the item is sent via in-game mail
 
-Upcoming features:
+**Upcoming features**
+
+* Add amount for reward item
+* Add different intervals and different list of items for each interval
 
 
 ## Requirements
