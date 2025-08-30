@@ -1,6 +1,6 @@
 # ![logo](https://raw.githubusercontent.com/azerothcore/azerothcore.github.io/master/images/logo-github.png) AzerothCore
 ## Reward System
-- Latest build status with azerothcore: [![Build Status](https://github.com/azerothcore/mod-reward-played-time/workflows/core-build/badge.svg?branch=master&event=push)](https://github.com/azerothcore/mod-reward-played-time)
+- Latest build status with azerothcore: [![core-build](https://github.com/freekode/mod-reward-played-time-improved/actions/workflows/core-build.yml/badge.svg)](https://github.com/freekode/mod-reward-played-time-improved/actions/workflows/core-build.yml)
 
 
 This is a module for [AzerothCore](http://www.azerothcore.org) that adds items for players that have stayed logged in the x amount of time.
@@ -20,15 +20,12 @@ AzerothCore v1.0.1+
 
 ## How to install
 
-###1) Simply place the module under the `modules` folder of your AzerothCore source folder.
-
-###2) Input the SQL file to the character database.
-
-###3) Re-run cmake and launch a clean build of AzerothCore
+1. Simply place the module under the `modules` folder of your AzerothCore source folder.
+2. Re-run cmake and launch a clean build of AzerothCore
 
 **That's it.**
 
 ### (Optional) Edit module configuration
 
-If you need to change the module configuration, go to your server configuration folder (e.g. **etc**), copy `reward_system.conf.dist` to `reward_system.conf` and edit it as you prefer.
+If you need to change the module configuration, go to your server configuration folder (e.g. **etc**), copy `mod-reward-played-time-improved.conf.dist` to `mod-reward-played-time-improved.conf` and edit it as you prefer.
 
