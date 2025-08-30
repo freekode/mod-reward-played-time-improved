@@ -17,7 +17,6 @@ public:
     std::string mail_subject = "RewardPlayedTime";
     std::string mail_body = "Congratulations! For your hard work you got a reward, keep it up!";
 
-
     void OnPlayerLogin(Player* player) override
     {
         if (!sConfigMgr->GetOption<bool>("RewardPlayedTime.Enable", true))
