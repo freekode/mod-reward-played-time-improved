@@ -112,8 +112,8 @@ public:
         if (receiver->IsInWorld() && receiver->AddItem(itemId, 1))
         {
             // // Show item link in chat
-            // ChatHandler(receiver->GetSession()).PSendSysMessage("You got - |c{}|Hitem:{}:0:0:0:0:0:0:0:0:0|h[{}]|h|r", 
-            //     item_quality_string.str(), 
+            // ChatHandler(receiver->GetSession()).PSendSysMessage("You got - |c{}|Hitem:{}:0:0:0:0:0:0:0:0:0|h[{}]|h|r",
+            //     item_quality_string.str(),
             //     item_template->ItemId,
             //     item_template->Name1);
             return;
@@ -130,11 +130,9 @@ public:
             draft.AddItem(item);
         }
         draft.SendMailTo(trans, MailReceiver(receiver), MailSender(receiver));
-        
+
         CharacterDatabase.CommitTransaction(trans);
     }
-
-
 
     void OnPlayerLogout(Player* player) override
     {
@@ -144,10 +142,9 @@ public:
 
         timers.erase(player->GetGUID());
     }
-    
+
 };
 
-// Add all scripts in one
 void AddRewardPlayedTimeScripts()
 {
     new RewardPlayedTime();
