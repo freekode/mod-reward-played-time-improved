@@ -1,5 +1,5 @@
 # ![logo](https://raw.githubusercontent.com/azerothcore/azerothcore.github.io/master/images/logo-github.png) AzerothCore
-## Reward System
+## Reward Played Time Improved
 - Latest build status with azerothcore: [![core-build](https://github.com/freekode/mod-reward-played-time-improved/actions/workflows/core-build.yml/badge.svg)](https://github.com/freekode/mod-reward-played-time-improved/actions/workflows/core-build.yml)
 
 
