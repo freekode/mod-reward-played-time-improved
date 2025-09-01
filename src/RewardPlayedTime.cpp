@@ -7,24 +7,54 @@
 #include "Config.h"
 #include "Chat.h"
 
+bool modEnabled;
+bool modAnnounce;
+uint32 rewardIntervalMinutes;
+
+// std::vector<std::pair<uint32, uint32>> RewardItems;
+std::vector<uint32> items;
+std::unordered_map<ObjectGuid, uint32> timers;
+
+
+class mod_reward_time_played_conf : public WorldScript
+{
+public:
+    mod_reward_time_played_conf() : WorldScript("mod_reward_time_played_conf", {}) { }
+
+    // Load Configuration Settings
+    void OnBeforeConfigLoad(bool /*reload*/) override
+    {
+        modEnabled = sConfigMgr->GetOption<bool>("RewardPlayedTime.Enable", true);
+        modAnnounce = sConfigMgr->GetOption<bool>("RewardPlayedTime.Announce", true);
+        rewardIntervalMinutes = sConfigMgr->GetOption<uint32>("RewardPlayedTime.RewardInterval", 3600);
+
+        // Get reward list
+        std::string itemList = sConfigMgr->GetOption<std::string>("RewardPlayedTime.RewardItems", "");        
+        std::stringstream ss(itemList);
+        std::string token;
+        items.clear();
+        while (std::getline(ss, token, ','))
+        {
+            items.push_back(std::stoul(token));
+        }
+    }
+};
+
 class RewardPlayedTime : public PlayerScript
 {
 public:
     RewardPlayedTime() : PlayerScript("RewardPlayedTime") { }
 
-    // std::vector<std::pair<uint32, uint32>> RewardItems;
-    std::unordered_map<ObjectGuid, uint32> timers;
     std::string mail_subject = "RewardPlayedTime";
     std::string mail_body = "Congratulations! For your hard work you got a reward, keep it up!";
 
     void OnPlayerLogin(Player* player) override
     {
-        if (!sConfigMgr->GetOption<bool>("RewardPlayedTime.Enable", true))
+        if (!modEnabled)
         {
             return;
         }
-
-        if (sConfigMgr->GetOption<bool>("RewardPlayedTime.Announce", true) )
+        if (modAnnounce)
         {
             ChatHandler(player->GetSession()).PSendSysMessage("This server is running the |cff4CFF00Reward Time Played Improved |rmodule.");
         }
@@ -34,12 +64,11 @@ public:
 
     void OnPlayerBeforeUpdate(Player* player, uint32 p_time) override
     {
-        if (!sConfigMgr->GetOption<bool>("RewardPlayedTime.Enable", true))
+        if (!modEnabled)
         {
             return;
         }
 
-        uint32 rewardIntervalMinutes = sConfigMgr->GetOption<uint32>("RewardPlayedTime.RewardInterval", 3600);
         uint32 intervalMs = rewardIntervalMinutes * SECOND * IN_MILLISECONDS;
 
         ObjectGuid guid = player->GetGUID();
@@ -62,17 +91,6 @@ public:
         }
 
         player_timer->second = 0; // reset timer
-
-        // Get reward list
-        std::string itemList = sConfigMgr->GetOption<std::string>("RewardPlayedTime.RewardItems", "");
-        std::vector<uint32> items;
-
-        std::stringstream ss(itemList);
-        std::string token;
-        while (std::getline(ss, token, ','))
-        {
-            items.push_back(std::stoul(token));
-        }
 
         if (items.empty())
         {
@@ -132,7 +150,7 @@ public:
 
     void OnPlayerLogout(Player* player) override
     {
-        if (!sConfigMgr->GetOption<bool>("RewardPlayedTime.Enable", true)) {
+        if (!modEnabled) {
             return;
         }
 
@@ -142,5 +160,6 @@ public:
 
 void AddRewardPlayedTimeScripts()
 {
+    new mod_reward_time_played_conf();
     new RewardPlayedTime();
 }
