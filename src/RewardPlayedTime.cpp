@@ -62,7 +62,6 @@ public:
         }
 
         player_timer->second = 0; // reset timer
-        ChatHandler(player->GetSession()).PSendSysMessage("ping");
 
         // Get reward list
         std::string itemList = sConfigMgr->GetOption<std::string>("RewardPlayedTime.RewardItems", "");
@@ -83,8 +82,6 @@ public:
 
         int32 roll = urand(0, items.size() - 1);
         uint32 rewardItemId = items[roll];
-
-        LOG_INFO("module", "[RewardPlayedTime]: rr {}, item: {}", roll, rewardItemId);
 
         SendRewardToPlayer(player, rewardItemId, 1);
     }
@@ -118,7 +115,7 @@ public:
             return;
         }
 
-        ChatHandler(receiver->GetSession()).PSendSysMessage("Oh oh! Don't worry, your item is send to your mailbox.");
+        ChatHandler(receiver->GetSession()).PSendSysMessage("Oh no! But don't worry, your item is send to your mailbox.");
 
         MailDraft draft(mail_subject, mail_body);
         CharacterDatabaseTransaction trans = CharacterDatabase.BeginTransaction();
