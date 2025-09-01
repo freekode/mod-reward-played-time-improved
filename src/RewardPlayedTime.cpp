@@ -7,13 +7,13 @@
 #include "Config.h"
 #include "Chat.h"
 
-bool modEnabled;
-bool modAnnounce;
-uint32 rewardIntervalMinutes;
+bool modRptiEnabled;
+bool modRptiAnnounce;
+uint32 modRptiRewardIntervalMinutes;
 
 // std::vector<std::pair<uint32, uint32>> RewardItems;
-std::vector<uint32> items;
-std::unordered_map<ObjectGuid, uint32> timers;
+std::vector<uint32> modRptiItems;
+std::unordered_map<ObjectGuid, uint32> modRptiTimers;
 
 
 class mod_reward_time_played_conf : public WorldScript
@@ -24,18 +24,18 @@ public:
     // Load Configuration Settings
     void OnBeforeConfigLoad(bool /*reload*/) override
     {
-        modEnabled = sConfigMgr->GetOption<bool>("RewardPlayedTime.Enable", true);
-        modAnnounce = sConfigMgr->GetOption<bool>("RewardPlayedTime.Announce", true);
-        rewardIntervalMinutes = sConfigMgr->GetOption<uint32>("RewardPlayedTime.RewardInterval", 3600);
+        modRptiEnabled = sConfigMgr->GetOption<bool>("RewardPlayedTime.Enable", true);
+        modRptiAnnounce = sConfigMgr->GetOption<bool>("RewardPlayedTime.Announce", true);
+        modRptiRewardIntervalMinutes = sConfigMgr->GetOption<uint32>("RewardPlayedTime.RewardInterval", 3600);
 
         // Get reward list
         std::string itemList = sConfigMgr->GetOption<std::string>("RewardPlayedTime.RewardItems", "");        
         std::stringstream ss(itemList);
         std::string token;
-        items.clear();
+        modRptiItems.clear();
         while (std::getline(ss, token, ','))
         {
-            items.push_back(std::stoul(token));
+            modRptiItems.push_back(std::stoul(token));
         }
     }
 };
@@ -50,31 +50,31 @@ public:
 
     void OnPlayerLogin(Player* player) override
     {
-        if (!modEnabled)
+        if (!modRptiEnabled)
         {
             return;
         }
-        if (modAnnounce)
+        if (modRptiAnnounce)
         {
             ChatHandler(player->GetSession()).PSendSysMessage("This server is running the |cff4CFF00Reward Time Played Improved |rmodule.");
         }
 
-        timers[player->GetGUID()] = 0;
+        modRptiTimers[player->GetGUID()] = 0;
     }
 
     void OnPlayerBeforeUpdate(Player* player, uint32 p_time) override
     {
-        if (!modEnabled)
+        if (!modRptiEnabled)
         {
             return;
         }
 
-        uint32 intervalMs = rewardIntervalMinutes * SECOND * IN_MILLISECONDS;
+        uint32 intervalMs = modRptiRewardIntervalMinutes * SECOND * IN_MILLISECONDS;
 
         ObjectGuid guid = player->GetGUID();
 
-        auto player_timer = timers.find(guid);
-        if (player_timer == timers.end())
+        auto player_timer = modRptiTimers.find(guid);
+        if (player_timer == modRptiTimers.end())
         {
             return; // player not tracked
         }
@@ -92,14 +92,14 @@ public:
 
         player_timer->second = 0; // reset timer
 
-        if (items.empty())
+        if (modRptiItems.empty())
         {
             LOG_WARN("module", "[RewardPlayedTime]: RewardItems list could not be parsed. Check your config!");
             return; // no items configured
         }
 
-        int32 roll = urand(0, items.size() - 1);
-        uint32 rewardItemId = items[roll];
+        int32 roll = urand(0, modRptiItems.size() - 1);
+        uint32 rewardItemId = modRptiItems[roll];
 
         SendRewardToPlayer(player, rewardItemId, 1);
     }
@@ -150,11 +150,11 @@ public:
 
     void OnPlayerLogout(Player* player) override
     {
-        if (!modEnabled) {
+        if (!modRptiEnabled) {
             return;
         }
 
-        timers.erase(player->GetGUID());
+        modRptiTimers.erase(player->GetGUID());
     }
 };
 
