@@ -12,6 +12,8 @@ This module grants players a random reward item every some time of session playt
 * Rewards are chosen from a configurable list
 * Items are added directly to the player’s bags. If bags are full, the item is sent via in-game mail
 
+List of Items: https://docs.google.com/spreadsheets/d/1ELCKMdPya1XaBS-YImPtIuEjEPXj2yf1AuVOHhf-QHs/edit?usp=sharing
+
 **Upcoming features**
 
 * Add amount for reward item
