@@ -15,7 +15,6 @@ uint32 modRptiRewardIntervalMinutes;
 std::vector<uint32> modRptiItems;
 std::unordered_map<ObjectGuid, uint32> modRptiTimers;
 
-
 class mod_reward_time_played_conf : public WorldScript
 {
 public:
@@ -30,7 +29,7 @@ public:
         modRptiRewardIntervalMinutes = sConfigMgr->GetOption<uint32>("RewardPlayedTime.RewardInterval", 3600);
 
         // Get reward list
-        std::string itemList = sConfigMgr->GetOption<std::string>("RewardPlayedTime.RewardItems", "");        
+        std::string itemList = sConfigMgr->GetOption<std::string>("RewardPlayedTime.RewardItems", "");
         std::stringstream ss(itemList);
         std::string token;
         modRptiItems.clear();
