@@ -57,7 +57,7 @@ public:
         }
         if (modRptiAnnounce)
         {
-            ChatHandler(player->GetSession()).PSendSysMessage("This server is running the |cff4CFF00Reward Time Played Improved |rmodule.");
+            ChatHandler(player->GetSession()).PSendSysMessage("This server is running the |cff4CFF00Reward Time Played Improved|r module.");
         }
 
         modRptiTimers[player->GetGUID()] = 0;
@@ -122,16 +122,16 @@ public:
             return;
         }
 
-        ChatHandler(receiver->GetSession()).PSendSysMessage("Congratulations! For your hard work you got a reward!");
+        ChatHandler(receiver->GetSession()).PSendSysMessage("[|cff4CFF00Reward Time Played Improved|r] Congratulations! For your hard work you got a reward!");
 
         if (modRptiAddToBag) {
             if (receiver->IsInWorld() && receiver->AddItem(itemId, 1))
             {
                 return;
             }
-            ChatHandler(receiver->GetSession()).PSendSysMessage("Oh no! But don't worry, your item is send to your mailbox.");
+            ChatHandler(receiver->GetSession()).PSendSysMessage("[|cff4CFF00Reward Time Played Improved|r] Oh no! But don't worry, your item is send to your mailbox.");
         } else {
-            ChatHandler(receiver->GetSession()).PSendSysMessage("Your item is send to your mailbox.");
+            ChatHandler(receiver->GetSession()).PSendSysMessage("[|cff4CFF00Reward Time Played Improved|r] Your prize is sent to your mailbox.");
         }
 
         MailDraft draft(mail_subject, mail_body);
